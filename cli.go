@@ -66,8 +66,8 @@ func run() {
 			},
 		},
 		Action: func(ctx context.Context, c *cli.Command) (err error) {
+			render_all()
 			copy_assets()
-			err = render_all()
 			return
 		},
 	}
