@@ -19,5 +19,10 @@ func extractFrontmatter(filename string) (fm map[string]interface{}, body string
 	})
 
 	fm, body, err = parser.Parse(fileData)
+
+	if _, ok := fm["title"]; !ok && siteTitle != "" {
+		fm["title"] = siteTitle
+	}
+
 	return
 }

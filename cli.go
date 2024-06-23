@@ -10,7 +10,7 @@ import (
 
 func parseCli() (*cli.Command, error) {
 	cwd, _ := os.Getwd()
-	// cwdBase := filepath.Base(cwd)
+	cwdBase := filepath.Base(cwd)
 
 	app := &cli.Command{
 		Name:      "maretosi",
@@ -35,13 +35,13 @@ func parseCli() (*cli.Command, error) {
 				DefaultText: "public",
 				Destination: &outputDir,
 			},
-			// &cli.StringFlag{
-			// 	Name:        "title",
-			// 	Aliases:     []string{"t"},
-			// 	Usage:       "site title",
-			// 	Value:       cwd_base,
-			// 	Destination: &siteTitle,
-			// },
+			&cli.StringFlag{
+				Name:        "title",
+				Aliases:     []string{"t"},
+				Usage:       "site-wide title - can be overridden per file",
+				Value:       cwdBase,
+				Destination: &siteTitle,
+			},
 			&cli.StringFlag{
 				Name:        "assets",
 				Aliases:     []string{"a"},
@@ -52,7 +52,7 @@ func parseCli() (*cli.Command, error) {
 			},
 			&cli.BoolFlag{
 				Name:        "no-assets",
-				Usage:       "skip processing statis assets",
+				Usage:       "skip processing static assets",
 				Value:       false,
 				Destination: &skipAssets,
 			},
