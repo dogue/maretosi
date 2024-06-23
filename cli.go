@@ -35,39 +35,39 @@ func run() {
 				Aliases:     []string{"i"},
 				Usage:       "markdown source directory",
 				Value:       filepath.Join(cwd, "content"),
-				Destination: &input_dir,
+				Destination: &inputDir,
 			},
 			&cli.StringFlag{
 				Name:        "output",
 				Aliases:     []string{"o"},
 				Usage:       "html destination directory",
 				Value:       "public",
-				Destination: &output_dir,
+				Destination: &outputDir,
 			},
 			&cli.StringFlag{
 				Name:        "title",
 				Aliases:     []string{"t"},
 				Usage:       "site title",
 				Value:       cwd_base,
-				Destination: &site_title,
+				Destination: &siteTitle,
 			},
 			&cli.StringFlag{
 				Name:        "assets",
 				Aliases:     []string{"a"},
 				Usage:       "static assets source directory",
 				Value:       filepath.Join(cwd, "assets"),
-				Destination: &assets_dir,
+				Destination: &assetsDir,
 			},
 			&cli.BoolFlag{
 				Name:        "no-ext",
 				Usage:       "disable markdown extensions",
 				Value:       false,
-				Destination: &disable_exts,
+				Destination: &disableExts,
 			},
 		},
 		Action: func(ctx context.Context, c *cli.Command) (err error) {
-			render_all()
-			copy_assets()
+			renderAll()
+			copyAssets()
 			return
 		},
 	}

@@ -39,53 +39,53 @@ func walker(destination *[]string) fs.WalkDirFunc {
 	}
 }
 
-func render_all() {
-	if _, err := os.Stat(input_dir); err != nil {
+func renderAll() {
+	if _, err := os.Stat(inputDir); err != nil {
 		if errors.Is(err, os.ErrNotExist) {
-			log.Fatalf("content source directory %q not found", input_dir)
+			log.Fatalf("content source directory %q not found", inputDir)
 		}
 		log.Error(err)
 	}
 
 	var pages []string
-	filepath.WalkDir(input_dir, walker(&pages))
+	filepath.WalkDir(inputDir, walker(&pages))
 
 	if len(pages) < 1 {
-		log.Fatalf("no source content found in directory %q", input_dir)
+		log.Fatalf("no source content found in directory %q", inputDir)
 	}
 
 	for _, page := range pages {
-		render_page(page)
+		renderPage(page)
 	}
 }
 
-func render_page(input_page string) {
-	output_page := strings.Replace(input_page, filepath.Base(input_dir), filepath.Base(output_dir), 1)
-	output_page = strings.Replace(output_page, ".md", ".html", 1)
-	output_page_parent := filepath.Dir(output_page)
+func renderPage(inputPage string) {
+	outputPage := strings.Replace(inputPage, filepath.Base(inputDir), filepath.Base(outputDir), 1)
+	outputPage = strings.Replace(outputPage, ".md", ".html", 1)
+	outputPageParent := filepath.Dir(outputPage)
 
-	err := os.MkdirAll(output_page_parent, fs.ModePerm)
+	err := os.MkdirAll(outputPageParent, fs.ModePerm)
 	if err != nil {
-		log.Fatalf("failed to create output directory %q: %v", output_page_parent, err)
+		log.Fatalf("failed to create output directory %q: %v", outputPageParent, err)
 	}
 
-	input_bytes, err := os.ReadFile(input_page)
+	input_bytes, err := os.ReadFile(inputPage)
 	if err != nil {
-		log.Fatalf("failed to read source file %q: %v", input_page, err)
+		log.Fatalf("failed to read source file %q: %v", inputPage, err)
 	}
 
 	var exts blackfriday.Option
-	if disable_exts {
+	if disableExts {
 		exts = blackfriday.WithNoExtensions()
 	} else {
 		exts = blackfriday.WithExtensions(blackfriday.CommonExtensions)
 	}
 
-	rendered_bytes := blackfriday.Run(input_bytes, exts)
+	renderedBytes := blackfriday.Run(input_bytes, exts)
 	out_buf := bytes.Buffer{}
 	data := TemplateData{
-		Title: site_title,
-		Body:  template.HTML(rendered_bytes),
+		Title: siteTitle,
+		Body:  template.HTML(renderedBytes),
 	}
 
 	t := template.New("maretosi")
@@ -97,15 +97,15 @@ func render_page(input_page string) {
 		log.Fatalf("failed to execute HTML template: %v", err)
 	}
 
-	if err = os.WriteFile(output_page, out_buf.Bytes(), fs.ModePerm); err != nil {
-		log.Fatalf("failed to write output file %q: %v", output_page, err)
+	if err = os.WriteFile(outputPage, out_buf.Bytes(), fs.ModePerm); err != nil {
+		log.Fatalf("failed to write output file %q: %v", outputPage, err)
 	}
 }
 
-func copy_assets() {
-	if _, err := os.Stat(assets_dir); err != nil {
+func copyAssets() {
+	if _, err := os.Stat(assetsDir); err != nil {
 		if errors.Is(err, os.ErrNotExist) {
-			log.Warnf("assets source directory %q not found", input_dir)
+			log.Warnf("assets source directory %q not found", inputDir)
 		} else {
 			log.Error(err)
 		}
@@ -114,10 +114,10 @@ func copy_assets() {
 	}
 
 	var assets []string
-	filepath.WalkDir(assets_dir, walker(&assets))
+	filepath.WalkDir(assetsDir, walker(&assets))
 
 	for i, asset := range assets {
-		if err := copy_asset(asset); err != nil {
+		if err := copyAsset(asset); err != nil {
 			log.Errorf("error copying asset %q\n\tcopied %d of %d assets successfully", asset, i, len(assets))
 			break
 		}
@@ -126,25 +126,25 @@ func copy_assets() {
 	return
 }
 
-func copy_asset(input_path string) error {
-	output_path := strings.Replace(input_path, filepath.Base(assets_dir), filepath.Join(filepath.Base(output_dir), "static"), 1)
-	output_path_parent := filepath.Dir(output_path)
+func copyAsset(inputPath string) error {
+	outputPath := strings.Replace(inputPath, filepath.Base(assetsDir), filepath.Join(filepath.Base(outputDir), "static"), 1)
+	outputPathParent := filepath.Dir(outputPath)
 
-	err := os.MkdirAll(output_path_parent, fs.ModePerm)
+	err := os.MkdirAll(outputPathParent, fs.ModePerm)
 	if err != nil {
-		log.Errorf("failed to create assets output directory %q: %v", output_path_parent, err)
+		log.Errorf("failed to create assets output directory %q: %v", outputPathParent, err)
 		return err
 	}
 
-	input, err := os.ReadFile(input_path)
+	input, err := os.ReadFile(inputPath)
 	if err != nil {
-		log.Errorf("failed to read asset file %q:\n\t%v", input_path, err)
+		log.Errorf("failed to read asset file %q:\n\t%v", inputPath, err)
 		return err
 	}
 
-	err = os.WriteFile(output_path, input, fs.ModePerm)
+	err = os.WriteFile(outputPath, input, fs.ModePerm)
 	if err != nil {
-		log.Errorf("failed to write asset file %q:\n\t%v", output_path, err)
+		log.Errorf("failed to write asset file %q:\n\t%v", outputPath, err)
 		return err
 	}
 
