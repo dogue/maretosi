@@ -2,26 +2,15 @@ package main
 
 import (
 	"context"
-	// "fmt"
-	"log"
-
-	// "fmt"
-
-	// "fmt"
-	// "errors"
-	// "fmt"
-	// "log"
 	"os"
 	"path/filepath"
-
-	// "strings"
 
 	"github.com/urfave/cli/v3"
 )
 
-func run() {
+func parseCli() (*cli.Command, error) {
 	cwd, _ := os.Getwd()
-	cwd_base := filepath.Base(cwd)
+	// cwdBase := filepath.Base(cwd)
 
 	app := &cli.Command{
 		Name:      "maretosi",
@@ -35,28 +24,37 @@ func run() {
 				Aliases:     []string{"i"},
 				Usage:       "markdown source directory",
 				Value:       filepath.Join(cwd, "content"),
-				Destination: &inputDir,
+				DefaultText: "content",
+				Destination: &contentDir,
 			},
 			&cli.StringFlag{
 				Name:        "output",
 				Aliases:     []string{"o"},
 				Usage:       "html destination directory",
 				Value:       "public",
+				DefaultText: "public",
 				Destination: &outputDir,
 			},
-			&cli.StringFlag{
-				Name:        "title",
-				Aliases:     []string{"t"},
-				Usage:       "site title",
-				Value:       cwd_base,
-				Destination: &siteTitle,
-			},
+			// &cli.StringFlag{
+			// 	Name:        "title",
+			// 	Aliases:     []string{"t"},
+			// 	Usage:       "site title",
+			// 	Value:       cwd_base,
+			// 	Destination: &siteTitle,
+			// },
 			&cli.StringFlag{
 				Name:        "assets",
 				Aliases:     []string{"a"},
 				Usage:       "static assets source directory",
 				Value:       filepath.Join(cwd, "assets"),
+				DefaultText: "assets",
 				Destination: &assetsDir,
+			},
+			&cli.BoolFlag{
+				Name:        "no-assets",
+				Usage:       "skip processing statis assets",
+				Value:       false,
+				Destination: &skipAssets,
 			},
 			&cli.BoolFlag{
 				Name:        "no-ext",
@@ -66,14 +64,9 @@ func run() {
 			},
 		},
 		Action: func(ctx context.Context, c *cli.Command) (err error) {
-			renderAll()
-			copyAssets()
 			return
 		},
 	}
 
-	err := app.Run(context.Background(), os.Args)
-	if err != nil {
-		log.Fatal(err)
-	}
+	return app, app.Run(context.Background(), os.Args)
 }
