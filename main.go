@@ -9,12 +9,12 @@ import (
 )
 
 func main() {
-	app, err := parseCli()
+	cli, err := parseCli()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	if app.IsSet("help") {
+	if cli.IsSet("help") {
 		os.Exit(0)
 	}
 

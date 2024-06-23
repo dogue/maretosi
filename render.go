@@ -40,20 +40,37 @@ func renderPage(inputFile, outputFile string) error {
 		return err
 	}
 
+	renderParams := blackfriday.HTMLRendererParameters{
+		Flags: blackfriday.FootnoteReturnLinks,
+	}
+	renderer := blackfriday.NewHTMLRenderer(renderParams)
+
 	var exts blackfriday.Option
 	if disableExts {
 		exts = blackfriday.WithNoExtensions()
 	} else {
-		exts = blackfriday.WithExtensions(blackfriday.CommonExtensions)
+		exts = blackfriday.WithExtensions(blackfriday.CommonExtensions | blackfriday.Footnotes)
 	}
 
-	renderedBytes := blackfriday.Run([]byte(body), exts)
+	renderedBytes := blackfriday.Run([]byte(body), exts, blackfriday.WithRenderer(renderer))
 	opts["body"] = template.HTML(renderedBytes)
 	outputBuffer := bytes.Buffer{}
 
 	t := template.New("maretosi")
-	if _, err = t.Parse(TEMPLATE); err != nil {
-		return err
+
+	if templateFile, ok := opts["template"]; ok {
+		file, err := os.ReadFile(templateFile.(string))
+		if err != nil {
+			return err
+		}
+
+		if _, err := t.Parse(string(file)); err != nil {
+			return err
+		}
+	} else {
+		if _, err = t.Parse(TEMPLATE); err != nil {
+			return err
+		}
 	}
 
 	if err = t.Execute(&outputBuffer, opts); err != nil {
