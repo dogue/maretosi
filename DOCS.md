@@ -101,6 +101,33 @@ Whereas an empty front matter might look like this:
 Lorem ipsum and so forth...
 ```
 
+### Abusing Front Matter
+
+Internally, the front matter is extracted and parsed as TOML into a `map[string]interface{}`. While it's not the intended use, this means that you can add arbitrary data into the front matter and extract it in a custom template.
+
+*content.md*
+```md
+~~~
+title = "Custom Data"
+template = "my_template.html"
+foo = "bar"
+~~~
+
+Lorem ipsum something something
+```
+
+*my_template.html*
+```
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+{{ .foo }}
+</body>
+</html>
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome.
