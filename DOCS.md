@@ -50,7 +50,7 @@ COPYRIGHT:
 
 ## HTML Template
 
-Maretosi ships with a default HTML template that is designed to be general enough for most uses. However, if you wish to supply a custom template see the [Front Matter](## Front Matter) section below.
+Maretosi ships with a default HTML template that is designed to be general enough for most uses. However, if you wish to supply a custom template see the [Front Matter](#front-matter) section below.
 
 ```html
 <!DOCTYPE html>
@@ -70,7 +70,7 @@ Maretosi ships with a default HTML template that is designed to be general enoug
 </html>
 ```
 
-## Front Matter
+## Front Matter {#front-matter}
 
 Maretosi supports a simple markdown front matter system for modifying the rendered HTML output per file.
 
