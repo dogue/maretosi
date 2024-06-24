@@ -72,7 +72,7 @@ Maretosi ships with a default HTML template that is designed to be general enoug
 
 ## Front Matter {#front-matter}
 
-Maretosi supports a simple markdown front matter system for modifying the rendered HTML output per file.
+Maretosi supports a simple markdown front matter system for modifying the rendered HTML output per file. Front matter attributes are defined in TOML syntax.
 
 Front matter should be placed at the top of all of your content files, even if it is empty. It uses `~~~` as the delimiter. Not including the delimiters will result in an error during processing.
 
@@ -106,7 +106,7 @@ Lorem ipsum and so forth...
 Internally, the front matter is extracted and parsed as TOML into a `map[string]interface{}`. While it's not the intended use, this means that you can add arbitrary data into the front matter and extract it in a custom template.
 
 *content.md*
-```md
+```markdown
 ~~~
 title = "Custom Data"
 template = "my_template.html"
@@ -117,7 +117,7 @@ Lorem ipsum something something
 ```
 
 *my_template.html*
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>
