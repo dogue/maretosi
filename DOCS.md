@@ -77,6 +77,7 @@ Lorem ipsum and so on...
 Maretosi uses a few built-in front matter fields internally to modify the behavior of the the markdown renderer. These built-in fields are prefixed with `__` to avoid collisions with user fields.
 
 * `__template` - (string) Specifies a path to an HTML template for this file. If not provided, the built-in template is used.
+* `__body` - (string) Contains the HTML content rendered from the markdown input file.
 * `__syntax_theme` - (string) Specifies a [Chroma style](https://github.com/alecthomas/chroma/tree/master/styles) to use for highlighting code blocks. Defaults to "github-dark".
 * `__line_numbers` - (bool) Specifies whether or not line numbers should be included in code blocks. False by default.
 
