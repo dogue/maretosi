@@ -1,7 +1,8 @@
 Maretosi is a static site generator which aims to be flexible enough for general use without sacrificing simplicity.
 
-It provides a built-in basic HTML template designed to be useful for most cases, though custom templates, stylesheets, and title can be specified per page via a front matter attribute.
+Core features:
+* basic built-in HTML template for rapid prototyping
+* syntax highlighting of code blocks with configurable themes via [Chroma](https://github.com/alecthomas/chroma)
+* optional front matter in either TOML or YAML
 
 Consult [the manual](DOCS.md) for information on usage and available options.
-
-This project is mirrored on GitHub [here](https://github.com/dogue/maretosi).
