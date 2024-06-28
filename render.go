@@ -22,12 +22,6 @@ import (
 //go:embed template.html
 var TEMPLATE string
 
-type RenderErr = int
-
-const (
-	unknownErr RenderErr = iota
-)
-
 func walker(destination *[]string) fs.WalkDirFunc {
 	return func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
