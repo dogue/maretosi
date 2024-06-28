@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"io/fs"
 	"os"
@@ -27,18 +26,16 @@ func mdToHtml(path string) string {
 func validDir(path string) error {
 	path, err := filepath.Abs(path)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to determine absolute path for file %q: %w", path, err)
 	}
 
 	fileInfo, err := os.Stat(path)
 	if err != nil {
-		msg := fmt.Sprintf("path not found: %s", path)
-		return errors.New(msg)
+		return fmt.Errorf("failed to get file info for %q: %w", path, err.(*fs.PathError).Err)
 	}
 
 	if !fileInfo.IsDir() {
-		msg := fmt.Sprintf("path is not a directory: %s", path)
-		return errors.New(msg)
+		return fmt.Errorf("path is not a directory: %q", path)
 	}
 
 	return nil

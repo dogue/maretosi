@@ -3,11 +3,10 @@ package main
 import (
 	"bytes"
 	_ "embed"
+	"fmt"
 	"html/template"
 	"io/fs"
 	"os"
-
-	"github.com/charmbracelet/log"
 
 	chromaHTML "github.com/alecthomas/chroma/v2/formatters/html"
 
@@ -23,10 +22,16 @@ import (
 //go:embed template.html
 var TEMPLATE string
 
+type RenderErr = int
+
+const (
+	unknownErr RenderErr = iota
+)
+
 func walker(destination *[]string) fs.WalkDirFunc {
 	return func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
-			log.Error(err)
+			return fmt.Errorf("failed to read path %q: %w", path, err.(*fs.PathError).Err)
 		}
 
 		if d.IsDir() {
@@ -59,12 +64,12 @@ func renderPage(inputFile, outputFile string) error {
 	metadata := make(map[string]any)
 	file, err := os.Open(inputFile)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to open file %q: %w", inputFile, err.(*fs.PathError).Err)
 	}
 
 	body, err := fm.Parse(file, &metadata)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to parse front matter from source file %q: %w", inputFile, err)
 	}
 
 	var syntaxTheme string
@@ -94,24 +99,24 @@ func renderPage(inputFile, outputFile string) error {
 	if templateFile, ok := metadata["__template"]; ok {
 		file, err := os.ReadFile(templateFile.(string))
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to read template file %q: %w", templateFile, err)
 		}
 
 		if _, err := t.Parse(string(file)); err != nil {
-			return err
+			return fmt.Errorf("failed to parse template file %q: %w", templateFile, err)
 		}
 	} else {
 		if _, err = t.Parse(TEMPLATE); err != nil {
-			return err
+			return fmt.Errorf("failed to parse built-in template. This is a bug. Please consider reporting it at https://github.com/dogue/maretosi/issues")
 		}
 	}
 
 	if err = t.Execute(&outputBuf, metadata); err != nil {
-		return err
+		return fmt.Errorf("failed to execute template: %w", err)
 	}
 
 	if err = os.WriteFile(outputFile, outputBuf.Bytes(), fs.ModePerm); err != nil {
-		return err
+		return fmt.Errorf("failed to write output file %q: %w", outputFile, err.(*fs.PathError).Err)
 	}
 
 	return nil
@@ -120,12 +125,12 @@ func renderPage(inputFile, outputFile string) error {
 func copyAsset(inputFile, outputFile string) error {
 	fileData, err := os.ReadFile(inputFile)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to read asset file %q: %w", inputFile, err.(*fs.PathError).Err)
 	}
 
 	err = os.WriteFile(outputFile, fileData, fs.ModePerm)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to write asset file %q: %w", outputFile, err.(*fs.PathError).Err)
 	}
 
 	return nil

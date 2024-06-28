@@ -16,6 +16,7 @@ var contentDir string
 var outputDir string
 var assetsDir string
 var skipAssets bool
+var verbose bool
 
 func main() {
 	cli, err := parseCli()
@@ -32,8 +33,7 @@ func main() {
 	}
 
 	var contentFiles []string
-	contentWalker := walker(&contentFiles)
-	if err := filepath.WalkDir(contentDir, contentWalker); err != nil {
+	if err := filepath.WalkDir(contentDir, walker(&contentFiles)); err != nil {
 		log.Fatal(err)
 	}
 
@@ -57,8 +57,7 @@ func main() {
 	}
 
 	var assetsFiles []string
-	assetsWalker := walker(&assetsFiles)
-	if err := filepath.WalkDir(assetsDir, assetsWalker); err != nil {
+	if err := filepath.WalkDir(assetsDir, walker(&assetsFiles)); err != nil {
 		log.Fatal(err)
 	}
 

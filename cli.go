@@ -55,5 +55,9 @@ func parseCli() (*cli.Command, error) {
 		},
 	}
 
+	if app.IsSet("verbose") {
+		verbose = true
+	}
+
 	return app, app.Run(context.Background(), os.Args)
 }
