@@ -7,9 +7,9 @@ import (
 	"io/fs"
 	"os"
 
-	// "github.com/alecthomas/chroma/v2"
-	chromaHTML "github.com/alecthomas/chroma/v2/formatters/html"
 	"github.com/charmbracelet/log"
+
+	chromaHTML "github.com/alecthomas/chroma/v2/formatters/html"
 
 	gmd "github.com/yuin/goldmark"
 	ghl "github.com/yuin/goldmark-highlighting/v2"
@@ -86,10 +86,9 @@ func renderPage(inputFile, outputFile string) error {
 
 	var renderedBytes bytes.Buffer
 	renderer.Convert([]byte(body), &renderedBytes)
-	// renderedBytes := blackfriday.Run([]byte(body), exts, blackfriday.WithRenderer(renderer))
 	metadata["__body"] = template.HTML(renderedBytes.String())
-	outputBuffer := bytes.Buffer{}
 
+	outputBuf := bytes.Buffer{}
 	t := template.New("maretosi")
 
 	if templateFile, ok := metadata["__template"]; ok {
@@ -107,11 +106,11 @@ func renderPage(inputFile, outputFile string) error {
 		}
 	}
 
-	if err = t.Execute(&outputBuffer, metadata); err != nil {
+	if err = t.Execute(&outputBuf, metadata); err != nil {
 		return err
 	}
 
-	if err = os.WriteFile(outputFile, outputBuffer.Bytes(), fs.ModePerm); err != nil {
+	if err = os.WriteFile(outputFile, outputBuf.Bytes(), fs.ModePerm); err != nil {
 		return err
 	}
 
