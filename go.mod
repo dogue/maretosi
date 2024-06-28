@@ -3,16 +3,19 @@ module maretosi
 go 1.22.4
 
 require (
-	github.com/russross/blackfriday/v2 v2.1.0
+	github.com/adrg/frontmatter v0.2.0
+	github.com/alecthomas/chroma/v2 v2.14.0
+	github.com/charmbracelet/log v0.4.0
 	github.com/urfave/cli/v3 v3.0.0-alpha9
+	github.com/yuin/goldmark v1.7.4
+	github.com/yuin/goldmark-highlighting/v2 v2.0.0-20230729083705-37449abec8cc
 )
 
 require (
 	github.com/BurntSushi/toml v1.4.0 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/charmbracelet/lipgloss v0.10.0 // indirect
-	github.com/charmbracelet/log v0.4.0 // indirect
-	github.com/gernest/front v0.0.0-20210301115436-8a0b0a782d0a // indirect
+	github.com/dlclark/regexp2 v1.11.0 // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mattn/go-isatty v0.0.18 // indirect

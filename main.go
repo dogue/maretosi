@@ -8,6 +8,15 @@ import (
 	"github.com/charmbracelet/log"
 )
 
+const (
+	VERSION = "0.1.0"
+)
+
+var contentDir string
+var outputDir string
+var assetsDir string
+var skipAssets bool
+
 func main() {
 	cli, err := parseCli()
 	if err != nil {

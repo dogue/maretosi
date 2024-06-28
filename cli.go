@@ -10,7 +10,6 @@ import (
 
 func parseCli() (*cli.Command, error) {
 	cwd, _ := os.Getwd()
-	cwdBase := filepath.Base(cwd)
 
 	app := &cli.Command{
 		Name:      "maretosi",
@@ -36,13 +35,6 @@ func parseCli() (*cli.Command, error) {
 				Destination: &outputDir,
 			},
 			&cli.StringFlag{
-				Name:        "title",
-				Aliases:     []string{"t"},
-				Usage:       "site-wide title - can be overridden per file",
-				Value:       cwdBase,
-				Destination: &siteTitle,
-			},
-			&cli.StringFlag{
 				Name:        "assets",
 				Aliases:     []string{"a"},
 				Usage:       "static assets source directory",
@@ -56,13 +48,8 @@ func parseCli() (*cli.Command, error) {
 				Value:       false,
 				Destination: &skipAssets,
 			},
-			&cli.BoolFlag{
-				Name:        "no-ext",
-				Usage:       "disable markdown extensions",
-				Value:       false,
-				Destination: &disableExts,
-			},
 		},
+		// prevent printing help when no flags passed
 		Action: func(ctx context.Context, c *cli.Command) (err error) {
 			return
 		},
