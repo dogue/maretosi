@@ -1,4 +1,4 @@
-module maretosi
+module github.com/dogue/maretosi
 
 go 1.22.4
 

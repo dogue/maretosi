@@ -9,12 +9,13 @@ import (
 )
 
 const (
-	VERSION = "0.1.0"
+	VERSION = "0.1.2"
 )
 
 var contentDir string
 var outputDir string
 var assetsDir string
+var templDir string
 var skipAssets bool
 var verbose bool
 
@@ -29,6 +30,15 @@ func main() {
 	}
 
 	if err = validateDirs(); err != nil {
+		log.Fatal(err)
+	}
+
+	var templateFiles []string
+	if err := filepath.WalkDir(templDir, walker(&templateFiles)); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := parseTemplates(templateFiles); err != nil {
 		log.Fatal(err)
 	}
 

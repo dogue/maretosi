@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	_ "embed"
 	"fmt"
 	"html/template"
 	"io/fs"
@@ -19,9 +18,6 @@ import (
 
 	fm "github.com/adrg/frontmatter"
 )
-
-//go:embed template.html
-var TEMPLATE string
 
 func walker(destination *[]string) fs.WalkDirFunc {
 	return func(path string, d fs.DirEntry, err error) error {
@@ -94,24 +90,19 @@ func renderPage(inputFile, outputFile string) error {
 	metadata["__body"] = template.HTML(renderedBytes.String())
 
 	outputBuf := bytes.Buffer{}
-	t := template.New("maretosi")
+	var templ string
 
 	if templateFile, ok := metadata["__template"]; ok {
-		file, err := os.ReadFile(templateFile.(string))
-		if err != nil {
-			return fmt.Errorf("failed to read template file %q: %w", templateFile, err)
-		}
-
-		if _, err := t.Parse(string(file)); err != nil {
-			return fmt.Errorf("failed to parse template file %q: %w", templateFile, err)
-		}
+		templ = templateFile.(string)
 	} else {
-		if _, err = t.Parse(TEMPLATE); err != nil {
-			return fmt.Errorf("failed to parse built-in template. This is a bug. Please consider reporting it at https://github.com/dogue/maretosi/issues")
-		}
+		templ = "__built_in"
 	}
 
-	if err = t.Execute(&outputBuf, metadata); err != nil {
+	if templates == nil {
+		panic("templates are nil")
+	}
+
+	if err = templates.ExecuteTemplate(&outputBuf, templ, metadata); err != nil {
 		return fmt.Errorf("failed to execute template: %w", err)
 	}
 

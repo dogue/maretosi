@@ -35,6 +35,13 @@ func parseCli() (*cli.Command, error) {
 				Destination: &outputDir,
 			},
 			&cli.StringFlag{
+				Name:        "templates",
+				Aliases:     []string{"t"},
+				Usage:       "html templates directory",
+				Value:       "templates",
+				Destination: &templDir,
+			},
+			&cli.StringFlag{
 				Name:        "assets",
 				Aliases:     []string{"a"},
 				Usage:       "static assets source directory",
