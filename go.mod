@@ -1,6 +1,6 @@
 module github.com/dogue/maretosi
 
-go 1.22.4
+go 1.22
 
 require (
 	github.com/adrg/frontmatter v0.2.0
