@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"io/fs"
 	"os"
+	"path/filepath"
 
 	chromaHTML "github.com/alecthomas/chroma/v2/formatters/html"
 
@@ -55,6 +56,11 @@ func initRenderer(syntaxTheme string, lineNumbers bool) gmd.Markdown {
 }
 
 func renderPage(inputFile, outputFile string) error {
+	// copy non markdown files as-is
+	if filepath.Ext(inputFile) != ".md" {
+		return copyFile(inputFile, outputFile)
+	}
+
 	metadata := make(map[string]any)
 	file, err := os.Open(inputFile)
 	if err != nil {
@@ -116,16 +122,20 @@ func renderPage(inputFile, outputFile string) error {
 	return nil
 }
 
-func copyAsset(inputFile, outputFile string) error {
+func copyFile(inputFile, outputFile string) error {
 	fileData, err := os.ReadFile(inputFile)
 	if err != nil {
-		return fmt.Errorf("failed to read asset file %q: %w", inputFile, err.(*fs.PathError).Err)
+		return fmt.Errorf("failed to read source file %q: %w", inputFile, err.(*fs.PathError).Err)
 	}
 
 	err = os.WriteFile(outputFile, fileData, fs.ModePerm)
 	if err != nil {
-		return fmt.Errorf("failed to write asset file %q: %w", outputFile, err.(*fs.PathError).Err)
+		return fmt.Errorf("failed to write destination file %q: %w", outputFile, err.(*fs.PathError).Err)
 	}
 
 	return nil
+}
+
+func copyAsset(inputFile, outputFile string) error {
+	return copyFile(inputFile, outputFile)
 }
