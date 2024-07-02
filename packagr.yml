@@ -1,0 +1,6 @@
+---
+package_type: golang
+scm: github
+version_metadata_path: ./version.go
+engine_git_author_name: dogue
+engine_git_author_email: redacted
