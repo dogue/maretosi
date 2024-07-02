@@ -8,10 +8,6 @@ import (
 	"github.com/charmbracelet/log"
 )
 
-const (
-	VERSION = "0.1.2"
-)
-
 var contentDir string
 var outputDir string
 var assetsDir string
