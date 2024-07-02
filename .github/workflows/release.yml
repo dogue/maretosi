@@ -16,7 +16,7 @@ jobs:
         GOOS: linux
         EXTRA_FILES: "LICENSE DOCS.md"
         CMD_PATH: "-buildvcs=false"
-        PROJECT_NAME: "maretosi-linux-x86"
+        PROJECT_NAME: "maretosi"
   release-linux-amd64:
     name: release linux/amd64
     runs-on: ubuntu-latest
@@ -30,7 +30,7 @@ jobs:
         GOOS: linux
         EXTRA_FILES: "LICENSE DOCS.md"
         CMD_PATH: "-buildvcs=false"
-        PROJECT_NAME: "maretosi-linux-amd64"
+        PROJECT_NAME: "maretosi"
   release-linux-arm:
     name: release linux/arm
     runs-on: ubuntu-latest
@@ -44,7 +44,7 @@ jobs:
         GOOS: linux
         EXTRA_FILES: "LICENSE DOCS.md"
         CMD_PATH: "-buildvcs=false"
-        PROJECT_NAME: "maretosi-linux-arm"
+        PROJECT_NAME: "maretosi"
   release-linux-arm64:
     name: release linux/arm64
     runs-on: ubuntu-latest
@@ -58,7 +58,7 @@ jobs:
         GOOS: linux
         EXTRA_FILES: "LICENSE DOCS.md"
         CMD_PATH: "-buildvcs=false"
-        PROJECT_NAME: "maretosi-linux-arm64"
+        PROJECT_NAME: "maretosi"
   release-darwin-amd64:
     name: release darwin/amd64
     runs-on: ubuntu-latest
@@ -72,7 +72,7 @@ jobs:
         GOOS: darwin
         EXTRA_FILES: "LICENSE DOCS.md"
         CMD_PATH: "-buildvcs=false"
-        PROJECT_NAME: "maretosi-darwin-amd64"
+        PROJECT_NAME: "maretosi"
   release-windows-386:
     name: release windows/386
     runs-on: ubuntu-latest
@@ -86,7 +86,7 @@ jobs:
         GOOS: windows
         EXTRA_FILES: "LICENSE DOCS.md"
         CMD_PATH: "-buildvcs=false"
-        PROJECT_NAME: "maretosi-win-x86"
+        PROJECT_NAME: "maretosi"
   release-windows-amd64:
     name: release windows/amd64
     runs-on: ubuntu-latest
@@ -100,4 +100,4 @@ jobs:
         GOOS: windows
         EXTRA_FILES: "LICENSE DOCS.md"
         CMD_PATH: "-buildvcs=false"
-        PROJECT_NAME: "maretosi-win-amd64"
+        PROJECT_NAME: "maretosi"
