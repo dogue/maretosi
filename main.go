@@ -21,7 +21,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	if cli.IsSet("help") {
+	if cli.IsSet("help") || cli.IsSet("version") {
 		os.Exit(0)
 	}
 

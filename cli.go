@@ -15,7 +15,7 @@ func parseCli() (*cli.Command, error) {
 		Name:      "maretosi",
 		Usage:     "render some markdown files to static html",
 		Version:   VERSION,
-		Copyright: "©️ 2024 dogue <https://github.com/dogue>",
+		Copyright: "Copyright ©️ 2024 dogue <https://github.com/dogue>\nBSD-3 License",
 		UsageText: "maretosi [options]",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
