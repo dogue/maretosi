@@ -2,6 +2,7 @@ Maretosi is a static site generator which aims to be flexible enough for general
 
 Core features:
 * basic built-in HTML template for rapid prototyping
+* uses Go's standard library HTML templates
 * syntax highlighting of code blocks with configurable themes via [Chroma](https://github.com/alecthomas/chroma)
 * optional front matter in either TOML or YAML
 
