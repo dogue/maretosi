@@ -29,7 +29,7 @@ A typical TOML example might look like this:
 ```markdown
 +++
 title = "Page Title"
-__template = "path/to/template.html"
+__template = "blog"
 +++
 
 # My Blog
@@ -42,7 +42,7 @@ And with YAML:
 ```markdown
 ---
 title: "Page Title"
-__template: "path/to/template.html"
+__template: "blog"
 ---
 
 # My Blog
