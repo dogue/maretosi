@@ -25,6 +25,10 @@ func main() {
 		os.Exit(0)
 	}
 
+	if err := os.RemoveAll(outputDir); err != nil {
+		log.Warn(err)
+	}
+
 	if err = validateDirs(); err != nil {
 		log.Fatal(err)
 	}
@@ -69,7 +73,7 @@ func main() {
 
 	for _, asset := range assetsFiles {
 		subpath := extractSubpath(asset, assetsDir)
-		outputFile := filepath.Join(outputDir, "static", subpath)
+		outputFile := filepath.Join(outputDir, subpath)
 
 		parentDir := filepath.Dir(outputFile)
 		if err := os.MkdirAll(parentDir, fs.ModePerm); err != nil {
