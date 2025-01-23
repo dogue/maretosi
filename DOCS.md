@@ -2,7 +2,7 @@
 
 ## Overview
 
-Maretosi is a static site generator with few features. It is a narrowly scoped tool by design, with the goal being to provide enough flexibility for general use without adding niche or esoteric features.
+Maretosi is a static site generator with few features. It is a narrowly scoped tool by design, with the goal being to provide enough flexibility for general use with a minimal feature set.
 
 If you're looking for a more traditional "kitchen-sink" static site generator, we recommend examining [Hugo](https://gohugo.io/) or [Zola](https://getzola.org).
 
