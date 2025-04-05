@@ -1,4 +1,4 @@
-Maretosi is a static site generator which aims to be flexible enough for general use without sacrificing simplicity.
+Maretosi is a bare bones static site generator focused on flexibility and simplicity.
 
 Core features:
 * basic built-in HTML template for rapid prototyping
